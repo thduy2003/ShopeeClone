@@ -4,7 +4,7 @@ import React from 'react'
 import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import { sortBy, order as orderConstant } from 'src/constants/product'
 import { ProductListConfig } from 'src/types/product.type'
-import { QueryConfig } from '../ProductList'
+import { QueryConfig } from '../../ProductList'
 interface Props {
   queryConfig: QueryConfig
   pageSize: number
