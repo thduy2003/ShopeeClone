@@ -8,7 +8,7 @@ interface Props {
 }
 const Product = ({ product }: Props) => {
   return (
-    <Link to='/'>
+    <Link to={`/${product._id}`}>
       <div className='bg-white shadow rounded-sm overflow-hidden hover:translate-y-[-0.03rem] hover:shadow-md duration-100 transition-transform'>
         <div className='w-full pt-[100%] relative'>
           <img

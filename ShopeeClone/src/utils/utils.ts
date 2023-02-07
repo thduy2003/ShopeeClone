@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import { kMaxLength } from 'buffer'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
 
 export function isAxiosError<T>(error: unknown): error is AxiosError<T> {
@@ -21,3 +22,4 @@ export function formatNumberToSocialStyle(value: number) {
     .replace('.', ',')
     .toLowerCase()
 }
+export const rateSale = (original: number, sale: number) => Math.round(((original - sale) / original) * 100) + '%'
