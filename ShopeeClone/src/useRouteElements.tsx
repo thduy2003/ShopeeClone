@@ -66,7 +66,7 @@ const useRouteElements = () => {
       ]
     },
     {
-      path: '/:id',
+      path: '/:nameId',
       element: (
         <MainLayout>
           <ProductDetail />
