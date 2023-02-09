@@ -18,6 +18,7 @@ const ProductDetail = () => {
   })
   const [currentIndexImages, setCurrentIndexImages] = React.useState([0, 5])
   const [activeImage, setActiveImage] = React.useState('')
+  const imageRef = React.useRef<HTMLImageElement>(null)
   const product = productDetailData?.data.data
   const currentImages = React.useMemo(
     () => (product ? product.images.slice(...currentIndexImages) : []),
@@ -42,7 +43,23 @@ const ProductDetail = () => {
       setActiveImage(product.images[0])
     }
   }, [product])
-
+  const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const image = imageRef.current as HTMLImageElement
+    const { naturalWidth, naturalHeight } = image
+    const { offsetX, offsetY } = event.nativeEvent
+    // đây là công thức để tính vị trí
+    const top = offsetY * (1 - naturalHeight / rect.height)
+    const left = offsetX * (1 - naturalWidth / rect.width)
+    image.style.height = naturalHeight + 'px'
+    image.style.width = naturalWidth + 'px'
+    image.style.maxWidth = 'unset'
+    image.style.top = top + 'px'
+    image.style.left = left + 'px'
+  }
+  const handleRemoveZoom = () => {
+    imageRef.current?.removeAttribute('style')
+  }
   if (!product) return null
   return (
     <div className='bg-gray-200 py-6'>
@@ -50,11 +67,16 @@ const ProductDetail = () => {
         <div className='bg-white p-4 shadow'>
           <div className='grid grid-cols-12 gap-9'>
             <div className='col-span-5'>
-              <div className='relative w-full pt-[100%] shadow'>
+              <div
+                className='relative w-full pt-[100%] cursor-zoom-in overflow-hidden shadow'
+                onMouseMove={handleZoom}
+                onMouseLeave={handleRemoveZoom}
+              >
                 <img
                   src={activeImage}
-                  className='absolute top-0 left-0 bg-white w-full h-full object-cover'
+                  className='absolute pointer-events-none top-0 left-0 bg-white w-full h-full object-cover'
                   alt={product.name}
+                  ref={imageRef}
                 />
               </div>
               <div className='relative mt-4 grid grid-cols-5 gap-1 '>

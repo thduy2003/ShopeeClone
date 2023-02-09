@@ -1,3 +1,5 @@
+import { object } from "yup"
+
 export interface SuccessResponse<Data> {
   message: string
   data: Data
@@ -9,3 +11,8 @@ export interface ErrorResponse<Data> {
 export type NoUndefinedField<T> = {
   [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>>
 }
+
+const product = NoUndefinedField<getProducts()>
+
+
+product = object
