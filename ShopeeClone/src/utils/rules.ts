@@ -89,7 +89,8 @@ export const schema = yup.object({
       }
       return price_max !== '' || price_min !== ''
     }
-  })
+  }),
+  name: yup.string().trim().required('Tên sản phẩm là bắt buộc')
 })
 const LoginSchema = schema.omit(['confirm_password'])
 export type LoginSchema = yup.InferType<typeof LoginSchema>
