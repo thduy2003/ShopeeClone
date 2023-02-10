@@ -6,7 +6,8 @@ import ProductRating from 'src/components/ProductRating'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
 import InputNumber from 'src/components/InputNumber'
 import DOMPurify from 'dompurify'
-import { Product } from 'src/types/product.type'
+import { Product as ProductType, ProductListConfig } from 'src/types/product.type'
+import Product from '../ProductList/components/Product'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
@@ -21,6 +22,16 @@ const ProductDetail = () => {
   const [activeImage, setActiveImage] = React.useState('')
   const imageRef = React.useRef<HTMLImageElement>(null)
   const product = productDetailData?.data.data
+  const queryConfig: ProductListConfig = { limit: 20, page: 1, category: product?.category._id }
+  const { data: productsData } = useQuery({
+    queryKey: ['products', queryConfig],
+    queryFn: () => {
+      return productApi.getProducts(queryConfig)
+    },
+    enabled: Boolean(product),
+    staleTime: 3 * 60 * 1000
+  })
+
   const currentImages = React.useMemo(
     () => (product ? product.images.slice(...currentIndexImages) : []),
     [product, currentIndexImages]
@@ -30,7 +41,7 @@ const ProductDetail = () => {
   }
   const next = () => {
     // bởi vì thằng products.images.length có thể lên đến 8-9 tùy nha
-    if (currentIndexImages[1] < (product as Product).images.length) {
+    if (currentIndexImages[1] < (product as ProductType).images.length) {
       setCurrentIndexImages((prev) => [prev[0] + 1, prev[1] + 1])
     }
   }
@@ -220,16 +231,33 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      <div className='container'>
-        <div className='mt-8 bg-white p-4 shadow'>
-          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
-          <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(product.description)
-              }}
-            ></div>
+      <div className='mt-8'>
+        <div className='container'>
+          <div className='mt-8 bg-white p-4 shadow'>
+            <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
+            <div className='mx-4 mt-12 mb-4 text-sm leading-loose'>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(product.description)
+                }}
+              ></div>
+            </div>
           </div>
+        </div>
+      </div>
+      <div className='mt-8'>
+        <div className='container'>
+          <div className='uppercase text-gray-400'>CÓ THỂ BẠN CŨNG THÍCH</div>
+          {productsData && (
+            <div className='mt-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3'>
+              {productsData &&
+                productsData.data.data.products.map((product) => (
+                  <div key={product._id} className='col-span-1'>
+                    <Product product={product} />
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
