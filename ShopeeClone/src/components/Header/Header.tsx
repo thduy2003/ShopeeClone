@@ -11,6 +11,12 @@ import { useForm } from 'react-hook-form'
 import { schema, Schema } from 'src/utils/rules'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { omit } from 'lodash'
+import { useQuery } from '@tanstack/react-query'
+import { purchasesStatus } from 'src/constants/purchase'
+import purchaseApi from 'src/apis/purchase.api'
+import noproduct from 'src/assets/images/no-product.png'
+import { formatCurrency } from 'src/utils/utils'
+const MAX_PURCHASE = 5
 const Header = () => {
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = React.useContext(AppContext)
   const queryConfig = useQueryConfig()
@@ -30,6 +36,15 @@ const Header = () => {
       setProfile(null)
     }
   })
+  //Khi chúng ta chuyển trang thì Header chỉ bị re-render
+  // Chúng ta không bị unmout - mounting again
+  // Tất nhiên là trừ trường hợp logout rồi nhảy sang RegisterLayout rồi nhảy vào lại
+  // Nên các query này sẽ không bị inactive => không bị gọi lại => không cần thiết phải set Stale: Infinity
+  const { data: purchaseInCartData } = useQuery({
+    queryKey: ['purchases', { status: purchasesStatus.inCart }],
+    queryFn: () => purchaseApi.getPurchases({ status: purchasesStatus.inCart })
+  })
+  const purchaseIncart = purchaseInCartData?.data.data
   const handleLogout = () => {
     logOutMutation.mutate()
   }
@@ -172,106 +187,49 @@ const Header = () => {
             <Popover
               renderPopover={
                 <div className='bg-white relative shadow-md rounded-sm border border-gray-200 max-w-[400px] text-sm'>
-                  <div className='p-2'>
-                    <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
-                    <div className='mt-5'>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://cf.shopee.vn/file/812264269a12fdfd6615384260e8394e_tn'
-                            alt='anh'
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Miếng Dán Bảo Vệ Bàn Phím Cho Asus Rog Strix G15 G513 G513Q G513Qm G513Qr G513Qy G 15 15.6
+                  {purchaseIncart ? (
+                    <div className='p-2'>
+                      <div className='text-gray-400 capitalize'>Sản phẩm mới thêm</div>
+                      <div className='mt-5'>
+                        {purchaseIncart.slice(0, MAX_PURCHASE).map((purchase) => (
+                          <div key={purchase._id} className='mt-4 flex'>
+                            <div className='flex-shrink-0'>
+                              <img
+                                src={purchase.product.image}
+                                alt={purchase.product.name}
+                                className='w-11 h-11 object-cover'
+                              />
+                            </div>
+                            <div className='flex-grow ml-2 overflow-hidden'>
+                              <div className='truncate'>{purchase.product.name}</div>
+                            </div>
+                            <div className='ml-2 flex-shrink-0'>
+                              <span className='text-orange'>₫{formatCurrency(purchase.product.price)}</span>
+                            </div>
                           </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫28.477</span>
-                        </div>
+                        ))}
                       </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://cf.shopee.vn/file/812264269a12fdfd6615384260e8394e_tn'
-                            alt='anh'
-                            className='w-11 h-11 object-cover'
-                          />
+
+                      <div className='flex mt-6 items-center justify-between'>
+                        <div className='text-xs capitalize text-gray-500'>
+                          {purchaseIncart.length > MAX_PURCHASE ? purchaseIncart.length - MAX_PURCHASE : ''} {''}Thêm
+                          vào giỏ hàng
                         </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Miếng Dán Bảo Vệ Bàn Phím Cho Asus Rog Strix G15 G513 G513Q G513Qm G513Qr G513Qy G 15 15.6
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫28.477</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://cf.shopee.vn/file/812264269a12fdfd6615384260e8394e_tn'
-                            alt='anh'
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Miếng Dán Bảo Vệ Bàn Phím Cho Asus Rog Strix G15 G513 G513Q G513Qm G513Qr G513Qy G 15 15.6
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫28.477</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://cf.shopee.vn/file/812264269a12fdfd6615384260e8394e_tn'
-                            alt='anh'
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Miếng Dán Bảo Vệ Bàn Phím Cho Asus Rog Strix G15 G513 G513Q G513Qm G513Qr G513Qy G 15 15.6
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫28.477</span>
-                        </div>
-                      </div>
-                      <div className='mt-4 flex'>
-                        <div className='flex-shrink-0'>
-                          <img
-                            src='https://cf.shopee.vn/file/812264269a12fdfd6615384260e8394e_tn'
-                            alt='anh'
-                            className='w-11 h-11 object-cover'
-                          />
-                        </div>
-                        <div className='flex-grow ml-2 overflow-hidden'>
-                          <div className='truncate'>
-                            Miếng Dán Bảo Vệ Bàn Phím Cho Asus Rog Strix G15 G513 G513Q G513Qm G513Qr G513Qy G 15 15.6
-                          </div>
-                        </div>
-                        <div className='ml-2 flex-shrink-0'>
-                          <span className='text-orange'>₫28.477</span>
-                        </div>
+                        <button className='capitalize px-4 py-2 text-white bg-orange hover:bg-opacity-90 rounded-sm'>
+                          Xem giỏ hàng
+                        </button>
                       </div>
                     </div>
-                    <div className='flex mt-6 items-center justify-between'>
-                      <div className='text-xs capitalize text-gray-500'>Thêm vào giỏ hàng</div>
-                      <button className='capitalize px-4 py-2 text-white bg-orange hover:bg-opacity-90 rounded-sm'>
-                        Xem giỏ hàng
-                      </button>
+                  ) : (
+                    <div className='flex h-[300px] w-[300px] items-center justify-center p-2'>
+                      <img src={noproduct} alt='no purchases' className='h-24 w-24' />
+                      <div className='mt-3 capitalize'>Chưa có sản phẩm</div>
                     </div>
-                  </div>
+                  )}
                 </div>
               }
             >
-              <Link to='/'>
+              <Link to='/' className='relative'>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
                   fill='none'
@@ -286,6 +244,9 @@ const Header = () => {
                     d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
                   />
                 </svg>
+                <span className='absolute top-[-5px] left-[17px] rounded-full bg-white px-[9px] py-[1px] text-xs text-orange'>
+                  {purchaseIncart?.length}
+                </span>
               </Link>
             </Popover>
           </div>
