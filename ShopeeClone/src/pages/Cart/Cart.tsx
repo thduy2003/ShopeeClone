@@ -179,7 +179,7 @@ const Cart = () => {
                                   name: purchase.product.name,
                                   id: purchase.product._id
                                 })}`}
-                                className='line-clamp-2'
+                                className='line-clamp-2 text-left'
                               >
                                 {purchase.product.name}
                               </Link>
