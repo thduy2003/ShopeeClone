@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { productApi } from 'src/apis/product.api'
 import ProductRating from 'src/components/ProductRating'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
@@ -18,6 +18,7 @@ import { toast } from 'react-toastify'
 const ProductDetail = () => {
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
+  const navigate = useNavigate()
   const { data: productDetailData } = useQuery({
     queryKey: ['product', id],
     queryFn: () => {
@@ -93,6 +94,15 @@ const ProductDetail = () => {
         }
       }
     )
+  }
+  const buyNow = async () => {
+    const res = await addToCartMutation.mutateAsync({ buy_count: buyCount, product_id: product?._id as string })
+    const purchase = res.data.data
+    navigate('/cart', {
+      state: {
+        purchaseId: purchase._id
+      }
+    })
   }
   if (!product) return null
   return (
@@ -224,9 +234,12 @@ const ProductDetail = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <div className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
+                <button
+                  className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  onClick={buyNow}
+                >
                   Mua ngay
-                </div>
+                </button>
               </div>
             </div>
           </div>
