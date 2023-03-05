@@ -11,11 +11,13 @@ import { purchasesStatus } from 'src/constants/purchase'
 import purchaseApi from 'src/apis/purchase.api'
 import noproduct from 'src/assets/images/no-product.png'
 import { formatCurrency } from 'src/utils/utils'
-import { queryClient } from 'src/main'
+
 import NavHeader from '../NavHeader'
 import useSearchProducts from 'src/hooks/useSearchProducts'
+import { useQueryClient } from '@tanstack/react-query'
 const MAX_PURCHASE = 5
 const Header = () => {
+  const queryClient = useQueryClient()
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = React.useContext(AppContext)
   const { onSubmitSearch, register } = useSearchProducts()
   //Khi chúng ta chuyển trang thì Header chỉ bị re-render

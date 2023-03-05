@@ -11,11 +11,12 @@ import Product from '../ProductList/components/Product'
 import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
 import { useMutation } from '@tanstack/react-query'
-import { queryClient } from 'src/main'
+import { useQueryClient } from '@tanstack/react-query'
 import { purchasesStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
 
 const ProductDetail = () => {
+  const queryClient = useQueryClient()
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
   const navigate = useNavigate()
