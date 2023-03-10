@@ -12,6 +12,7 @@ import ProductList from './pages/ProductList'
 import Register from './pages/Register'
 import UserLayout from './pages/User/layouts/UserLayout'
 import ChangePassword from './pages/User/pages/ChangePassword'
+import HistoryPurchase from './pages/User/pages/HistoryPurchase'
 import Profile from './pages/User/pages/Profile'
 function ProtectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
@@ -60,6 +61,10 @@ const useRouteElements = () => {
             {
               path: '/user/password',
               element: <ChangePassword />
+            },
+            {
+              path: '/user/purchase',
+              element: <HistoryPurchase />
             }
           ]
         }
