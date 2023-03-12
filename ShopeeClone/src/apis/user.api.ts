@@ -2,10 +2,11 @@ import { Omit } from 'lodash'
 import { User } from 'src/types/user.type'
 import { SuccessResponse } from 'src/types/utils.type'
 import http from 'src/utils/http'
-interface UpdateProfile extends Omit<User, 'id' | 'roles' | 'createdAt' | 'updateAt' | 'email'> {
-  password: string
-  newPassword: string
+interface UpdateProfile extends Omit<User, '_id' | 'roles' | 'createdAt' | 'updatedAt' | 'email'> {
+  password?: string
+  newPassword?: string
 }
+
 const userApi = {
   getProfile() {
     return http.get<SuccessResponse<User>>('me')

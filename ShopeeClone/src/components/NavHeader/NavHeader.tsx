@@ -6,7 +6,7 @@ import Popover from '../Popover'
 import authApi from 'src/apis/auth.api'
 import { useQueryClient } from '@tanstack/react-query'
 import { purchasesStatus } from 'src/constants/purchase'
-
+import userImage from 'src/assets/images/user.svg'
 const NavHeader = () => {
   const queryClient = useQueryClient()
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = React.useContext(AppContext)
@@ -81,11 +81,7 @@ const NavHeader = () => {
           }
         >
           <div className='w-5 h-5 mr-2 flex-shrink-0'>
-            <img
-              src='https://cf.shopee.vn/file/95f6da1e2aa98867df27033b130f8fb8_tn'
-              className='w-full h-full object-cover rounded-full'
-              alt='avatar'
-            />
+            <img src={profile?.avatar || userImage} className='w-full h-full object-cover rounded-full' alt='avatar' />
           </div>
           <div>{profile?.email}</div>
         </Popover>
