@@ -69,6 +69,7 @@ const Profile = () => {
     queryKey: ['profile'],
     queryFn: userApi.getProfile
   })
+
   const updateProfileMutation = useMutation(userApi.updateProfile)
   const uploadAvatarMutation = useMutation(userApi.uploadAvatar)
   const methods = useForm<FormData>({

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { productApi } from 'src/apis/product.api'
 import ProductRating from 'src/components/ProductRating'
@@ -10,14 +10,14 @@ import { Product as ProductType, ProductListConfig } from 'src/types/product.typ
 import Product from '../ProductList/components/Product'
 import QuantityController from 'src/components/QuantityController'
 import purchaseApi from 'src/apis/purchase.api'
-import { useMutation } from '@tanstack/react-query'
-import { useQueryClient } from '@tanstack/react-query'
+
 import { purchasesStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
 
 const ProductDetail = () => {
   const queryClient = useQueryClient()
   const { nameId } = useParams()
+
   const id = getIdFromNameId(nameId as string)
   const navigate = useNavigate()
   const { data: productDetailData } = useQuery({
@@ -113,20 +113,20 @@ const ProductDetail = () => {
           <div className='grid grid-cols-12 gap-9'>
             <div className='col-span-5'>
               <div
-                className='relative w-full pt-[100%] cursor-zoom-in overflow-hidden shadow'
+                className='relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow'
                 onMouseMove={handleZoom}
                 onMouseLeave={handleRemoveZoom}
               >
                 <img
                   src={activeImage}
-                  className='absolute pointer-events-none top-0 left-0 bg-white w-full h-full object-cover'
+                  className='pointer-events-none absolute top-0 left-0 h-full w-full bg-white object-cover'
                   alt={product.name}
                   ref={imageRef}
                 />
               </div>
               <div className='relative mt-4 grid grid-cols-5 gap-1 '>
                 <button
-                  className='z-10 w-10 h-9 absolute left-0 top-1/2 -translate-y-1/2 bg-black/20 text-white '
+                  className='absolute left-0 top-1/2 z-10 h-9 w-10 -translate-y-1/2 bg-black/20 text-white '
                   onClick={prev}
                 >
                   <svg
@@ -135,7 +135,7 @@ const ProductDetail = () => {
                     viewBox='0 0 24 24'
                     strokeWidth={1.5}
                     stroke='currentColor'
-                    className='w-5 h-5'
+                    className='h-5 w-5'
                   >
                     <path strokeLinecap='round' strokeLinejoin='round' d='M15.75 19.5L8.25 12l7.5-7.5' />
                   </svg>
@@ -146,7 +146,7 @@ const ProductDetail = () => {
                     <div className='relative w-full pt-[100%] ' key={img} onMouseEnter={() => chooseActive(img)}>
                       <img
                         src={img}
-                        className='absolute top-0 left-0 bg-white cursor-pointer w-full h-full object-cover'
+                        className='absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover'
                         alt={product.name}
                       />
                       {isActive && <div className='absolute inset-0 border-2 border-orange ' />}
@@ -154,7 +154,7 @@ const ProductDetail = () => {
                   )
                 })}
                 <button
-                  className='z-10 w-10 h-9 absolute right-0 top-1/2 -translate-y-1/2 bg-black/20 text-white '
+                  className='absolute right-0 top-1/2 z-10 h-9 w-10 -translate-y-1/2 bg-black/20 text-white '
                   onClick={next}
                 >
                   <svg
@@ -163,7 +163,7 @@ const ProductDetail = () => {
                     viewBox='0 0 24 24'
                     strokeWidth={1.5}
                     stroke='currentColor'
-                    className='w-5 h-5'
+                    className='h-5 w-5'
                   >
                     <path strokeLinecap='round' strokeLinejoin='round' d='M8.25 4.5l7.5 7.5-7.5 7.5' />
                   </svg>
@@ -205,7 +205,7 @@ const ProductDetail = () => {
                 />
                 <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
               </div>
-              <div className='mt-8 flex items-cent'>
+              <div className='items-cent mt-8 flex'>
                 <button
                   onClick={addToCart}
                   className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
@@ -215,7 +215,7 @@ const ProductDetail = () => {
                     viewBox='0 0 15 15'
                     x={0}
                     y={0}
-                    className='fill-current stroke-orange h-5 w-5 mr-[10px] text-orange'
+                    className='mr-[10px] h-5 w-5 fill-current stroke-orange text-orange'
                   >
                     <g>
                       <g>
@@ -264,7 +264,7 @@ const ProductDetail = () => {
         <div className='container'>
           <div className='uppercase text-gray-400'>CÓ THỂ BẠN CŨNG THÍCH</div>
           {productsData && (
-            <div className='mt-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3'>
+            <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
               {productsData &&
                 productsData.data.data.products.map((product) => (
                   <div key={product._id} className='col-span-1'>
