@@ -27,6 +27,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [extendedPurchases, setExtendedPurchases] = React.useState<ExtendedPurchase[]>(
     initialAppContext.extendedPurchases
   )
+
   const reset = () => {
     setIsAuthenticated(false)
     setProfile(null)

@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo, useContext, useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import { purchasesStatus } from 'src/constants/purchase'
 import purchaseApi from 'src/apis/purchase.api'
 import { formatCurrency, generateNameId } from 'src/utils/utils'
@@ -8,7 +8,7 @@ import QuantityController from 'src/components/QuantityController'
 import Button from 'src/components/Button'
 import { Purchase } from 'src/types/purchase.type'
 import produce from 'immer'
-import { useMutation } from '@tanstack/react-query'
+
 import { keyBy } from 'lodash'
 import { toast } from 'react-toastify'
 import { AppContext } from 'src/contexts/app.context'
@@ -141,7 +141,7 @@ const Cart = () => {
           <Fragment>
             <div className='overflow-auto'>
               <div className='min-w-[1000px] '>
-                <div className='grid grid-cols-12 rounded-sm bg-white py-5 px-9 test-sm capitalize text-gray-500 shadow'>
+                <div className='test-sm grid grid-cols-12 rounded-sm bg-white py-5 px-9 capitalize text-gray-500 shadow'>
                   <div className='col-span-6 '>
                     <div className='flex items-center'>
                       <div className='flex flex-shrink-0 items-center justify-center pr-3'>
@@ -149,7 +149,7 @@ const Cart = () => {
                           type='checkbox'
                           checked={isAllChecked}
                           onChange={handleCheckAll}
-                          className='w-5 h-5 accent-orange'
+                          className='h-5 w-5 accent-orange'
                         />
                       </div>
                       <div className='flex-grow text-black'>Sản phẩm</div>
@@ -169,7 +169,7 @@ const Cart = () => {
                     {extendedPurchases?.map((purchase, index) => (
                       <div
                         key={purchase._id}
-                        className='grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-sm text-gray-500 first:mt-0 mb-5'
+                        className='mb-5 grid grid-cols-12 items-center rounded-sm border border-gray-200 bg-white py-5 px-4 text-center text-sm text-gray-500 first:mt-0'
                       >
                         <div className='col-span-6'>
                           <div className='flex'>
@@ -178,7 +178,7 @@ const Cart = () => {
                                 type='checkbox'
                                 checked={purchase.checked}
                                 onChange={handleCheck(index)}
-                                className='w-5 h-5 accent-orange'
+                                className='h-5 w-5 accent-orange'
                               />
                             </div>
                             <div className='flex-grow'>
@@ -198,7 +198,7 @@ const Cart = () => {
                                       name: purchase.product.name,
                                       id: purchase.product._id
                                     })}`}
-                                    className='line-clamp-2 text-left'
+                                    className='text-left line-clamp-2'
                                   >
                                     {purchase.product.name}
                                   </Link>
@@ -258,7 +258,7 @@ const Cart = () => {
                 )}
               </div>
             </div>
-            <div className='sticky mt-8 bottom-0 z-10 flex flex-col sm:flex-row sm:items-center rounded-sm bg-white shadow border-gray-100 p-5 '>
+            <div className='sticky bottom-0 z-10 mt-8 flex flex-col rounded-sm border-gray-100 bg-white p-5 shadow sm:flex-row sm:items-center '>
               <div className='flex items-center'>
                 <div className='flex flex-shrink-0 items-center justify-center pr-3'>
                   <input type='checkbox' checked={isAllChecked} className='h-5 w-5 accent-orange' />
@@ -271,19 +271,19 @@ const Cart = () => {
                 </button>
               </div>
 
-              <div className='ml-auto mt-5 sm:mt-0 flex-col sm:flex-row flex sm:items-center'>
+              <div className='ml-auto mt-5 flex flex-col sm:mt-0 sm:flex-row sm:items-center'>
                 <div>
                   <div className='flex items-center sm:justify-end'>
                     <div>Tổng thanh toán({checkedPurchasesCount} sản phẩm)</div>
                     <div className='ml-2 text-2xl text-orange'> ₫{formatCurrency(totalCheckedPurchasesPrice)}</div>
                   </div>
-                  <div className='flex items-center sm:justify-end text-sm'>
+                  <div className='flex items-center text-sm sm:justify-end'>
                     <div className='text-gray-500'>Tiết kiệm</div>
                     <div className='ml-6 text-orange'>₫{formatCurrency(totalCheckedPurchasesSavingPrice)}</div>
                   </div>
                 </div>
                 <Button
-                  className='ml-4 mt-5 sm:mt-0 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600'
+                  className='ml-4 mt-5 flex h-10 w-52 items-center justify-center bg-red-500 text-sm uppercase text-white hover:bg-red-600 sm:mt-0'
                   onClick={handleBuyPurchases}
                   disabled={buyPurchasesMutation.isLoading}
                 >
@@ -294,12 +294,12 @@ const Cart = () => {
           </Fragment>
         ) : (
           <div className='text-center'>
-            <img src={noproduct} alt='no purchases' className='h-24 w-24 mx-auto' />
+            <img src={noproduct} alt='no purchases' className='mx-auto h-24 w-24' />
             <div className='my-5 font-bold text-gray-500'>Chưa có sản phẩm nào trong giỏ hàng</div>
             <div className='text-center'>
               <Link
                 to='/'
-                className='px-10 py-2 uppercase rounded-sm bg-orange text-white transition-all hover:bg-orange/80'
+                className='rounded-sm bg-orange px-10 py-2 uppercase text-white transition-all hover:bg-orange/80'
               >
                 Mua ngay
               </Link>
