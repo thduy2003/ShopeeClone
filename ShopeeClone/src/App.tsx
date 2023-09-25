@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { AppContext } from './contexts/app.context'
 import { useContext, useEffect } from 'react'
 import { LocalStorageEventTarget } from './utils/auth'
+
 function App() {
   const routeElements = useRouteElements()
   const { reset } = useContext(AppContext)

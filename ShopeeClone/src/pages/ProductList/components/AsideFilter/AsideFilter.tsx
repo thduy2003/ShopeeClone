@@ -13,6 +13,7 @@ import { NoUndefinedField } from 'src/types/utils.type'
 import RatingStars from '../RatingStars'
 import { omit } from 'lodash'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
+import { useTranslation } from 'react-i18next'
 interface Props {
   queryConfig: QueryConfig
   categories: Category[]
@@ -23,7 +24,7 @@ const priceSchema = schema.pick(['price_min', 'price_max'])
 const AsideFilter = ({ queryConfig, categories }: Props) => {
   const { category } = queryConfig
   const navigate = useNavigate()
-
+  const { t } = useTranslation('home')
   const {
     control,
     handleSubmit,
@@ -64,7 +65,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
           'font-semibold text-orange': !category
         })}
       >
-        <svg viewBox='0 0 12 10' className='w-3 h-4 mr-3 fill-current'>
+        <svg viewBox='0 0 12 10' className='mr-3 h-4 w-3 fill-current'>
           <g fillRule='evenodd' stroke='none' strokeWidth={1}>
             <g transform='translate(-373 -208)'>
               <g transform='translate(155 191)'>
@@ -77,9 +78,9 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             </g>
           </g>
         </svg>
-        Tất cả danh mục
+        {t('aside filter.all categories')}
       </Link>
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <ul>
         {categories.map((categoryItem) => {
           const isActive = category === categoryItem._id
@@ -98,7 +99,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                 })}
               >
                 {isActive && (
-                  <svg viewBox='0 0 4 7' className='fill-orange h-2 w-2 absolute top-1 left-[-10px]'>
+                  <svg viewBox='0 0 4 7' className='absolute top-1 left-[-10px] h-2 w-2 fill-orange'>
                     <polygon points='4 3.5 0 0 0 7' />
                   </svg>
                 )}
@@ -109,14 +110,14 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
           )
         })}
       </ul>
-      <Link to='/' className='flex items-center font-bold mt-4 uppercase'>
+      <Link to='/' className='mt-4 flex items-center font-bold uppercase'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
           fill='none'
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='w-3 h-4 mr-3'
+          className='mr-3 h-4 w-3'
         >
           <path
             strokeLinecap='round'
@@ -124,9 +125,9 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
             d='M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z'
           />
         </svg>
-        Bộ lọc tìm kiếm
+        {t('aside filter.filter search')}
       </Link>
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <div className='my-5'>
         <div>Khoảng giá</div>
         <form onSubmit={onSubmit} className='mt-2'>
@@ -173,19 +174,19 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
               }}
             />
           </div>
-          <div className='mt-1 text-red-600 min-h-[1.25rem] text-sm text-center'>{errors?.price_min?.message}</div>
-          <Button className='w-full p-2 uppercase bg-orange text-white text-sm hover:bg-orange/80 flex items-center justify-center'>
+          <div className='mt-1 min-h-[1.25rem] text-center text-sm text-red-600'>{errors?.price_min?.message}</div>
+          <Button className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'>
             Áp dụng
           </Button>
         </form>
       </div>
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <div className='text-sm'>Đánh giá</div>
       <RatingStars queryConfig={queryConfig} />
-      <div className='bg-gray-300 h-[1px] my-4'></div>
+      <div className='my-4 h-[1px] bg-gray-300'></div>
       <Button
         onClick={handleRemoveAll}
-        className='w-full p-2 uppercase bg-orange text-white text-sm hover:bg-orange/80 flex items-center justify-center'
+        className='flex w-full items-center justify-center bg-orange p-2 text-sm uppercase text-white hover:bg-orange/80'
       >
         Xóa tất cả
       </Button>

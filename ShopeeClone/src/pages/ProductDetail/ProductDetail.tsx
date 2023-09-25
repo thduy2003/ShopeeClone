@@ -13,11 +13,12 @@ import purchaseApi from 'src/apis/purchase.api'
 
 import { purchasesStatus } from 'src/constants/purchase'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 const ProductDetail = () => {
   const queryClient = useQueryClient()
   const { nameId } = useParams()
-
+  const { t } = useTranslation('product')
   const id = getIdFromNameId(nameId as string)
   const navigate = useNavigate()
   const { data: productDetailData } = useQuery({
@@ -203,7 +204,9 @@ const ProductDetail = () => {
                   onIncrease={handleBuyCount}
                   value={buyCount}
                 />
-                <div className='ml-6 text-sm text-gray-500'>{product.quantity} sản phẩm có sẵn</div>
+                <div className='ml-6 text-sm text-gray-500'>
+                  {product.quantity} {t('available')}
+                </div>
               </div>
               <div className='items-cent mt-8 flex'>
                 <button
