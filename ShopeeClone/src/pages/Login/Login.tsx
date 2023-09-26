@@ -10,6 +10,7 @@ import { ErrorResponse } from 'src/types/utils.type'
 import Input from 'src/components/Input'
 import { AppContext } from 'src/contexts/app.context'
 import Button from 'src/components/Button'
+import { Helmet } from 'react-helmet-async'
 
 type FormData = Pick<Schema, 'email' | 'password'>
 const LoginSchema = schema.pick(['email', 'password'])
@@ -57,10 +58,14 @@ const Login = () => {
   })
   return (
     <div className='bg-orange'>
-      <div className='max-w-7xl mx-auto px-4'>
+      <Helmet>
+        <title>Đăng nhập | Shopee Clone</title>
+        <meta name='description' content='Đăng nhập vào dự án Shopee Clone' />
+      </Helmet>
+      <div className='mx-auto max-w-7xl px-4'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form onSubmit={onSubmit} className='p-10 rounded bg-white shadow-sm' noValidate>
+            <form onSubmit={onSubmit} className='rounded bg-white p-10 shadow-sm' noValidate>
               <div className='text-2xl'> Đăng Nhập</div>
               <Input
                 name='email'
@@ -80,14 +85,14 @@ const Login = () => {
               />
               <div className='mt-3'>
                 <Button
-                  className='w-full flex items-center justify-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'
+                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
                   isLoading={loginMutation.isLoading}
                   disabled={loginMutation.isLoading}
                 >
                   Đăng nhập
                 </Button>
               </div>
-              <div className='flex justify-center items-center mt-8'>
+              <div className='mt-8 flex items-center justify-center'>
                 <span className='text-gray-400'>Bạn chưa có tài khoản?</span>
                 <Link className='text-red-400' to='/register'>
                   Đăng ký
