@@ -28,7 +28,7 @@ describe('http axios', () => {
   })
   it('Refresh Token', async () => {
     setAccessTokenToLS(access_token_1s)
-    // setRefreshTokenToLS(refresh_token_10000s)
+    setRefreshTokenToLS(refresh_token_10000s)
     const httpNew = new Http().instance
     const res = await httpNew.get('me')
 
