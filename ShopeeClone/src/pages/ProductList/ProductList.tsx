@@ -9,6 +9,7 @@ import { ProductListConfig } from 'src/types/product.type'
 
 import categoryApi from 'src/apis/category.api'
 import useQueryConfig from 'src/hooks/useQueryConfig'
+import { Helmet } from 'react-helmet-async'
 
 const ProductList = () => {
   const queryConfig = useQueryConfig()
@@ -30,6 +31,10 @@ const ProductList = () => {
   })
   return (
     <div className='bg-gray-200 py-6'>
+      <Helmet>
+        <title>Trang chủ | Shopee Clone</title>
+        <meta name='description' content='Đây là trang chủ của ShopeeClone'></meta>
+      </Helmet>
       <div className='container '>
         {productsData && (
           <div className='grid grid-cols-12 gap-4'>
@@ -41,7 +46,7 @@ const ProductList = () => {
                 queryConfig={queryConfig}
                 pageSize={productsData.data.data.pagination.page_size}
               ></SortProductList>
-              <div className='mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
+              <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                 {productsData &&
                   productsData.data.data.products.map((product) => (
                     <div key={product._id} className='col-span-1'>
