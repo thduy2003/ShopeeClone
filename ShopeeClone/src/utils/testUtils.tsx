@@ -1,4 +1,7 @@
-import { screen, waitFor, waitForOptions } from '@testing-library/react'
+import { screen, waitFor, waitForOptions, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
+import { BrowserRouter } from 'react-router-dom'
+import App from 'src/App'
 import { expect } from 'vitest'
 
 const delay = (time: number) =>
@@ -20,4 +23,11 @@ export const logScreen = async (
     { ...options, timeout }
   )
   screen.debug(body, Infinity)
+}
+export const renderWithRouter = ({ route = '/' } = {}) => {
+  window.history.pushState({}, 'test page', route)
+  return {
+    user: userEvent.setup(),
+    ...render(<App />, { wrapper: BrowserRouter })
+  }
 }
