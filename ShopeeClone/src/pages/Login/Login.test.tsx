@@ -3,16 +3,20 @@ import { logScreen, renderWithRouter } from 'src/utils/testUtils'
 import { beforeAll, describe, expect, it } from 'vitest'
 import * as matchers from '@testing-library/jest-dom/matchers'
 expect.extend(matchers)
+let submitButton: HTMLButtonElement
+let emailInput: HTMLInputElement
+let passwordInput: HTMLInputElement
 beforeAll(async () => {
   renderWithRouter({ route: '/login' })
   await waitFor(() => {
     expect(screen.queryByPlaceholderText('Email')).toBeInTheDocument()
   })
+  submitButton = document.querySelector('.button-login') as HTMLButtonElement
+  emailInput = document.querySelector('form input[type="email"]') as HTMLInputElement
+  passwordInput = document.querySelector('form input[type="password"]') as HTMLInputElement
 })
 describe('Login', () => {
   it('Hiển thị lỗi required khi không nhập gì', async () => {
-    const submitButton = document.querySelector('.button-login') as Element
-
     fireEvent.submit(submitButton)
 
     await waitFor(async () => {
@@ -21,10 +25,7 @@ describe('Login', () => {
     })
     // await logScreen()
   })
-  it('Hiển thị lỗi required khi không nhập gì', async () => {
-    const submitButton = document.querySelector('.button-login') as Element
-    const emailInput = document.querySelector('form input[type="email"]') as HTMLInputElement
-    const passwordInput = document.querySelector('form input[type="password"]') as HTMLInputElement
+  it('Hiển thị lỗi khi nhập value input sai', async () => {
     fireEvent.change(emailInput, {
       target: {
         value: 'test@gmail'
@@ -37,7 +38,31 @@ describe('Login', () => {
     })
     fireEvent.submit(submitButton)
 
-    expect(await screen.findByText('Email không đúng định dạng')).toBeTruthy()
-    expect(await screen.findByText('Độ dài password phải từ 6-160 kí tự')).toBeTruthy()
+    await waitFor(() => {
+      expect(screen.queryByText('Email không đúng định dạng')).toBeTruthy()
+      expect(screen.queryByText('Độ dài password phải từ 6-160 kí tự')).toBeTruthy()
+    })
+  })
+  it('Không nên hiển thị lỗi khi nhập lại value đúng', async () => {
+    fireEvent.change(emailInput, {
+      target: {
+        value: 'test@gmail.com'
+      }
+    })
+    fireEvent.change(passwordInput, {
+      target: {
+        value: '123456'
+      }
+    })
+
+    await waitFor(() => {
+      expect(screen.queryByText('Email không đúng định dạng')).toBeFalsy()
+      expect(screen.queryByText('Độ dài password phải từ 6-160 kí tự')).toBeFalsy()
+    })
+    fireEvent.submit(submitButton)
+    await logScreen()
+    await waitFor(() => {
+      expect(document.querySelector('title')?.textContent).toBe('Trang chủ | Shopee Clone')
+    })
   })
 })
