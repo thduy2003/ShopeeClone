@@ -85,7 +85,7 @@ const Login = () => {
               />
               <div className='mt-3'>
                 <Button
-                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
+                  className='button-login flex w-full items-center justify-center bg-red-500 py-4 px-2 text-sm uppercase text-white hover:bg-red-600'
                   isLoading={loginMutation.isLoading}
                   disabled={loginMutation.isLoading}
                 >
