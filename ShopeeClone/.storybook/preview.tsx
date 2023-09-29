@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { AppProvider } from '../src/contexts/app.context'
 import ErrorBoundary from '../src/components/ErrorBoundary'
+import { withRouter } from 'storybook-addon-react-router-v6'
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
@@ -34,17 +35,16 @@ const queryClient = new QueryClient({
   }
 })
 export const decorators = [
+  withRouter,
   (Story) => (
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AppProvider>
-          <HelmetProvider>
-            <ErrorBoundary></ErrorBoundary>
-            <Story />
-          </HelmetProvider>
-        </AppProvider>
-      </QueryClientProvider>
-    </BrowserRouter>
+    <QueryClientProvider client={queryClient}>
+      <AppProvider>
+        <HelmetProvider>
+          <ErrorBoundary></ErrorBoundary>
+          <Story />
+        </HelmetProvider>
+      </AppProvider>
+    </QueryClientProvider>
   )
 ]
 export default preview
