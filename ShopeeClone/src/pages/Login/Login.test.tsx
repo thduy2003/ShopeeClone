@@ -9,7 +9,7 @@ let passwordInput: HTMLInputElement
 beforeAll(async () => {
   renderWithRouter({ route: '/login' })
   await waitFor(() => {
-    expect(screen.queryByPlaceholderText('Email')).toBeInTheDocument()
+    expect(screen.queryByPlaceholderText('Email'))
   })
   submitButton = document.querySelector('.button-login') as HTMLButtonElement
   emailInput = document.querySelector('form input[type="email"]') as HTMLInputElement

@@ -77,10 +77,13 @@ const NavHeader = () => {
           className='ml-6 flex cursor-pointer items-center py-1 hover:text-gray-300'
           renderPopover={
             <div className='relative rounded-sm border border-gray-200 bg-white shadow-md'>
-              <Link to='/' className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
+              <Link
+                to='/user/profile'
+                className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'
+              >
                 Tài khoản của bạn
               </Link>
-              <Link to='/' className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
+              <Link to='/cart' className='block bg-white py-3 px-4 text-left hover:bg-slate-100 hover:text-cyan-500'>
                 Đơn mua
               </Link>
               <button

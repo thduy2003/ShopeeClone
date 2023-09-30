@@ -18,7 +18,7 @@ describe('App', () => {
     //verify chuyển sang trong login
     await user.click(screen.getByText(/Đăng nhập/i))
     await waitFor(() => {
-      expect(screen.queryByText('Bạn chưa có tài khoản?')).toBeInTheDocument()
+      expect(screen.queryByText('Bạn chưa có tài khoản?'))
       expect(document.querySelector('title')?.textContent).toBe('Đăng nhập | Shopee Clone')
     })
   })

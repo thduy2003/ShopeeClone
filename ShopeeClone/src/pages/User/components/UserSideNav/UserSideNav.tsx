@@ -1,5 +1,6 @@
+import classNames from 'classnames'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { AppContext } from 'src/contexts/app.context'
 import { getAvatarUrl } from 'src/utils/utils'
 
@@ -13,7 +14,7 @@ const UserSideNav = () => {
           to='/user/profile'
           className='h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10'
         >
-          <img src={getAvatarUrl(profile?.avatar)} alt='' className='w-full h-full object-cover' />
+          <img src={getAvatarUrl(profile?.avatar)} alt='' className='h-full w-full object-cover' />
         </Link>
         <div className='flex-grow pl-4'>
           <div className='mb-1 truncate font-semibold text-gray-600'>duytrieudong</div>
@@ -24,7 +25,7 @@ const UserSideNav = () => {
               viewBox='0 0 24 24'
               strokeWidth='1.5'
               stroke='currentColor'
-              className='w-6 h-6'
+              className='h-6 w-6'
             >
               <path
                 strokeLinecap='round'
@@ -37,36 +38,48 @@ const UserSideNav = () => {
         </div>
       </div>
       <div className='mt-7'>
-        <Link to='/user/profile' className='flex items-center capitalize text-orange transition-colors'>
+        <NavLink
+          to={'/user/profile'}
+          className={({ isActive }) =>
+            classNames('flex items-center capitalize  transition-colors', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
           <div className='mr-3 h-[22px] w-[22px]'>
-            <img
-              src='https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black-thumbnail.png'
-              alt=''
-              className='w-full h-full'
-            />
+            <img src='https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4' alt='' className='h-full w-full' />
           </div>
           Tài khoản của tôi
-        </Link>
-        <Link to='/user/password' className='flex items-center capitalize text-gray-600 transition-colors'>
-          <div className='mr-3 mt-5 mb-5 h-[22px] w-[22px]'>
-            <img
-              src='https://e7.pngegg.com/pngimages/178/595/png-clipart-user-profile-computer-icons-login-user-avatars-monochrome-black-thumbnail.png'
-              alt=''
-              className='w-full h-full'
-            />
+        </NavLink>
+        <NavLink
+          to={'/user/password'}
+          className={({ isActive }) =>
+            classNames('mt-4 flex items-center capitalize transition-colors', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
+          <div className='mr-3 h-[22px] w-[22px]'>
+            <img src='https://cf.shopee.vn/file/ba61750a46794d8847c3f463c5e71cc4' alt='' className='h-full w-full' />
           </div>
           Đổi mật khẩu
-        </Link>
-        <Link to='/user/purchase' className='flex items-center capitalize text-gray-600 transition-colors'>
+        </NavLink>
+        <NavLink
+          to={'/user/purchase'}
+          className={({ isActive }) =>
+            classNames('mt-4 flex items-center  capitalize transition-colors', {
+              'text-orange': isActive,
+              'text-gray-600': !isActive
+            })
+          }
+        >
           <div className='mr-3 h-[22px] w-[22px]'>
-            <img
-              src='https://png.pngtree.com/png-vector/20191011/ourmid/pngtree-invoice-icon-png-image_1817550.jpg'
-              alt=''
-              className='w-full h-full'
-            />
+            <img src='https://cf.shopee.vn/file/f0049e9df4e536bc3e7f140d071e9078' alt='' className='h-full w-full' />
           </div>
           Đơn mua
-        </Link>
+        </NavLink>
       </div>
     </div>
   )
