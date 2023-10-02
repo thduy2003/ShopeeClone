@@ -30,7 +30,7 @@ const NavHeader = () => {
   }
   const currentLanguage = locales[i18n.language as keyof typeof locales]
   return (
-    <div className='flex justify-end'>
+    <div className='flex justify-end max-sm:justify-between'>
       <Popover
         className='flex cursor-pointer items-center py-1 hover:text-gray-300'
         renderPopover={

@@ -124,7 +124,7 @@ const ProductDetail = () => {
       </Helmet>
       <div className='container'>
         <div className='bg-white p-4 shadow'>
-          <div className='grid grid-cols-12 gap-9'>
+          <div className='gap-9 sm:grid sm:grid-cols-12'>
             <div className='col-span-5'>
               <div
                 className='relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow'
